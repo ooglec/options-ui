@@ -45,3 +45,7 @@
   cursor: pointer;
   font-weight: 600;
 }
+
+.text-red{
+  color: red;
+}

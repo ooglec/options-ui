@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import { Tabs, TabList, TabPanels, Tab, TabPanel , TabIndicator, Box} from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Tab, TabPanel , TabIndicator, Box, Spinner, Flex, Text, List, ListItem, UnorderedList} from '@chakra-ui/react'
 import Options from './Options'
 import MyOptions from './MyOptions'
 import { useCall, useEthers } from '@usedapp/core'
-import { optionsContract, optionsContractWithSigner } from '../../utils'
+import { optionsContract, optionsContractWithSigner, addressToSymbol } from '../../utils'
 import { ethers, utils } from 'ethers'
+
 const OptionsTab = () => {
 
   const [params, setParams] = useState(null)
@@ -27,10 +28,9 @@ const OptionsTab = () => {
     }
     console.log(promises)
     let options = await Promise.all(promises);
-    let i = 1;
-    const data = options.map((option) => {
+    const data = options.map((option, index) => {
         return {
-            id: 1,
+            id: index+1,
             optionHolder: option[1],
             optionWriter: option[0],
             optionMaturity: option[5],
@@ -39,9 +39,9 @@ const OptionsTab = () => {
             underlyingAsset: option[3],
             theoricalPrice: option[8],
             isCall: option[9],
-            underlyingAssetValue: option[7]
+            underlyingAssetValue: option[7],
+            lastExerciseDate: option[6],
         }
-        i++;
     })
     setParams(data)
     return options;
@@ -63,6 +63,7 @@ useEffect(() => {
     <TabList>
       <Tab>Options</Tab>
       <Tab>My Options</Tab>
+      <Tab>Info</Tab>
     </TabList>
     <TabIndicator
       mt="-1.5px"
@@ -70,14 +71,44 @@ useEffect(() => {
       bg="blue.500"
       borderRadius="1px"
     />
-    <TabPanels>
+   {
+    params ? (
+      <TabPanels>
       <TabPanel>
-       {params && <Options maxId={utils.formatUnits(maxId[0], 0)} params={params} />}
+       {account && <Options maxId={utils.formatUnits(maxId[0], 0)} account={account} params={params} />}
       </TabPanel>
       <TabPanel>
-        {params && <MyOptions params={params} />}
+       <MyOptions params={params} />
+      </TabPanel>
+      <TabPanel>
+      <Flex mt={10} flexDir="column" align="start">
+        <Text fontSize={24} my={4}>Test Assets</Text>
+        <Text fontSize={16} my={4}>For the testing purposes, these tokens were deployed to represent their mainnet counterparts</Text>
+        </Flex>
+       {Object.keys(addressToSymbol).map((key, index) => {
+          return (
+           <Flex align="start">
+             <Box alignItems="start" key={index}>
+              <Text mr="3">{addressToSymbol[key].symbol} : </Text>
+            </Box>
+            <Box alignItems="start" key={index}>
+            <Text mx="3"><a target='_blank' href={`https://goerli.arbiscan.io/address/${key}`}>{key}</a></Text>
+          </Box>
+           </Flex>
+          )
+       })}
+
+       <Flex mt={10} flexDir="column" align="start">
+        <Text fontSize={24} my={4}>Info</Text>
+       <UnorderedList>
+        <ListItem>Time is calculated based on UTC+00</ListItem>
+       </UnorderedList>
+       </Flex>
       </TabPanel>
     </TabPanels>
+    ) : 
+    <Spinner />
+   }
   </Tabs>
     </Box>
   )

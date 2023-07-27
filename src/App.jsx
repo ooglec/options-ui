@@ -18,6 +18,7 @@ const ConnectButton = () => {
 function App() {
 
   const [page, setPage] = useState('1');
+  const {account} = useEthers();
 
 
   return (
@@ -25,11 +26,12 @@ function App() {
     
     <Flex minWidth='max-content' justifyContent="right" alignItems='right' gap='15' my={8}>
       <ConnectButton />
+      {account && <Button color="rebeccapurple">{account.slice(0, 8)}......</Button>}
     </Flex>
 
     
 
-    <Flex minWidth='max-content' justifyContent="right" alignItems='right' gap='15' my={8}>
+    <Flex minWidth='max-content' justifyContent="left" gap='15' my={8}>
       <div className='cur' onClick={() => setPage(1)}>Home</div>
       <div className='cur' onClick={() => setPage(2)}>Create</div>
     </Flex>

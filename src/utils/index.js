@@ -32,5 +32,5 @@ export function convertUnixTimestampToDate(timestamp) {
     // Multiply by 1000 because JS works with milliseconds instead of the UNIX seconds
     let date = new Date(timestamp * 1000);
 
-    return date.toDateString();
+    return date.toLocaleString();
 }
