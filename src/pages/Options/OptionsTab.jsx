@@ -87,11 +87,11 @@ useEffect(() => {
         </Flex>
        {Object.keys(addressToSymbol).map((key, index) => {
           return (
-           <Flex align="start">
-             <Box alignItems="start" key={index}>
+           <Flex  key={index} align="start">
+             <Box alignItems="start">
               <Text mr="3">{addressToSymbol[key].symbol} : </Text>
             </Box>
-            <Box alignItems="start" key={index}>
+            <Box alignItems="start">
             <Text mx="3"><a target='_blank' href={`https://goerli.arbiscan.io/address/${key}`}>{key}</a></Text>
           </Box>
            </Flex>

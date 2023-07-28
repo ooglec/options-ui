@@ -228,7 +228,7 @@ const Create = () => {
                 <FormLabel>Maturity Time(days)</FormLabel>
                 {/* <Input min={1} max={30} name="maturity" type='number' /> */}
 
-                <NumberInput name='maturity' defaultValue={15} min={0.24} max={30}>
+                <NumberInput name='maturity' defaultValue={15} min={0.01} max={30}>
                 <NumberInputField />
                 <NumberInputStepper>
                     <NumberIncrementStepper />
