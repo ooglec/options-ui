@@ -3,7 +3,7 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel , TabIndicator, Box, Spinner, F
 import Options from './Options'
 import MyOptions from './MyOptions'
 import { useCall, useEthers } from '@usedapp/core'
-import { optionsContract, optionsContractWithSigner, addressToSymbol } from '../../utils'
+import { optionsContract, optionsContractWithSigner, addressToSymbol, optionAddress } from '../../utils'
 import { ethers, utils } from 'ethers'
 
 const OptionsTab = () => {
@@ -41,6 +41,7 @@ const OptionsTab = () => {
             isCall: option[9],
             underlyingAssetValue: option[7],
             lastExerciseDate: option[6],
+            exercised: option[10],
         }
     })
     setParams(data)
@@ -83,7 +84,8 @@ useEffect(() => {
       <TabPanel>
       <Flex mt={10} flexDir="column" align="start">
         <Text fontSize={24} my={4}>Test Assets</Text>
-        <Text fontSize={16} my={4}>For the testing purposes, these tokens were deployed to represent their mainnet counterparts</Text>
+        <Text fontSize={16} >For the testing purposes, these tokens were deployed to represent their mainnet counterparts</Text>
+        <Text fontSize={16} mb={4}>PriceFeeds are received from chainlink</Text>
         </Flex>
        {Object.keys(addressToSymbol).map((key, index) => {
           return (
@@ -100,8 +102,12 @@ useEffect(() => {
 
        <Flex mt={10} flexDir="column" align="start">
         <Text fontSize={24} my={4}>Info</Text>
-       <UnorderedList>
+       <UnorderedList align="start">
+       <ListItem>Deployed on the arbitrum goerli testnet</ListItem>
         <ListItem>Time is calculated based on UTC+00</ListItem>
+        <ListItem>Current exercise window is 24 hours</ListItem>
+        <ListItem>Time is calculated based on UTC+00</ListItem>
+        <ListItem> <Text>Deployed Options contract: <a target='_blank' href={`https://goerli.arbiscan.io/address/${optionAddress}`}>{optionAddress}</a></Text></ListItem>
        </UnorderedList>
        </Flex>
       </TabPanel>

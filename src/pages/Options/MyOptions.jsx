@@ -33,8 +33,8 @@ const Row = ({param, exercise}) => {
             <Td>{param.isCall == true ? "Call" : "Put"}</Td>
             
             <Td>{
-                now > lastDate ? <Button color="red">Expired</Button> : 
-                now > maturity ?  <Button color="green" onClick={exercise}>exercise</Button> : <Button color="rebeccapurple">Not mature</Button>
+              param.exercised ? <Button color="red">Expired</Button> : (now > lastDate ? <Button color="red">Expired</Button> : 
+              now > maturity ?  <Button color="green" onClick={exercise}>exercise</Button> : <Button color="rebeccapurple">Not mature</Button>)
             }</Td> 
             
             {/* {params.lastDate ? <p>last date</p> : <Button>cancel</Button>} */}

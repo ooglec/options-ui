@@ -36,13 +36,13 @@ const Row = ({param, buyHandler, account}) => {
     console.log(param.id)
     const underlying = addressToSymbol[param.underlyingAsset]
     const strike = addressToSymbol[param.strikeAsset]
-
-
+    const maturity = new Date(param.optionMaturity * 1000);
+    const now = new Date(Date.now());
 
 
     return (
-        
-        <Tr>
+        now < maturity && (
+            <Tr>
             <Td>{underlying.symbol}/{strike.symbol}</Td>
             <Td>{param.optionWriter.slice(0, 8)}....</Td>
             <Td>{convertUnixTimestampToDate(utils.formatUnits(param.optionMaturity, 0))}</Td>
@@ -53,7 +53,10 @@ const Row = ({param, buyHandler, account}) => {
             <Td>$ {utils.formatUnits(param.theoricalPrice, 6)}</Td>
             <Td>{param.optionWriter != account ? <Button onClick={buyHandler}>Buy</Button> : <p>Writer</p>}</Td>
         </Tr>
+        )
+        
     )
+    
 }
 
 const Options = ({maxId, params}) => {
